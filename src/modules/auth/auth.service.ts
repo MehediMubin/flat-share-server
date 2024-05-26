@@ -18,6 +18,8 @@ const register = async (payload: TAuth) => {
     username,
     email,
     password: hashedPassword,
+    status: "active",
+    role: "user",
   };
 
   let user;

@@ -16,6 +16,14 @@ const authSchema = new Schema<TAuth>({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    default: "active",
+  },
+  role: {
+    type: String,
+    default: "user",
+  },
 });
 
 export const AuthModel = model<TAuth>("Auth", authSchema);
