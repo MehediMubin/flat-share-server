@@ -1,11 +1,21 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
+import { TAuth } from "./auth.interface";
 
-const authSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+const authSchema = new Schema<TAuth>({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
-const AuthModel = mongoose.model("Auth", authSchema);
-
-export default AuthModel;
+export const AuthModel = model<TAuth>("Auth", authSchema);

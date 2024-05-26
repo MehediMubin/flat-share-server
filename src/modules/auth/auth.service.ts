@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcrypt";
 import config from "../../config";
-import prisma from "../../db/prisma";
 import { jwtHelpers } from "../../utils/jwtHelpers";
 import { TLogin, TRegistration } from "./auth.constant";
+import { AuthModel } from "./auth.model";
 
 const register = async (payload: TRegistration) => {
   const { username, email, password } = payload;
@@ -19,17 +19,23 @@ const register = async (payload: TRegistration) => {
     password: hashedPassword,
   };
 
-  const result = await 
+  const result = await AuthModel.create(userData);
 
   return result;
 };
 
 const login = async (payload: TLogin) => {
-  const userData = await prisma.user.findUniqueOrThrow({
-    where: {
-      email: payload.email,
-    },
-  });
+  let userData;
+
+  if (payload.email) {
+    userData = await AuthModel.findOne({ email: payload.email });
+  } else if (payload.username) {
+    userData = await AuthModel.findOne({ username: payload.username });
+  }
+
+  if (!userData) {
+    throw new Error("User not found!");
+  }
 
   const isCorrectPassword: boolean = await bcrypt.compare(
     payload.password,
@@ -49,19 +55,9 @@ const login = async (payload: TLogin) => {
     config.jwt.access_token_expires_in as string,
   );
 
-  // eslint-disable-next-line no-unused-vars
-  const refreshToken = jwtHelpers.generateToken(
-    {
-      id: userData.id,
-      email: userData.email,
-    },
-    config.jwt.refresh_token_secret as string,
-    config.jwt.refresh_token_expires_in as string,
-  );
-
   const result = {
     id: userData.id,
-    name: userData.name,
+    username: userData.username,
     email: userData.email,
     token: accessToken,
   };
