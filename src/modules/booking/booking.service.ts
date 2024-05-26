@@ -1,46 +1,29 @@
-import prisma from "../../db/prisma";
+import { BookingModel } from "./booking.model";
 
 const createBookingRequest = async (flatId: string, userId: string) => {
-  const existingBooking = await prisma.booking.findFirst({
-    where: {
-      flatId,
-      userId,
-    },
+  const existingBooking = await BookingModel.findOne({
+    flatId,
+    userId,
   });
 
   if (existingBooking) {
     throw new Error("You have already booked this flat.");
   }
 
-  const result = await prisma.booking.create({
-    data: {
-      flatId,
-      userId,
-    },
+  const result = await BookingModel.create({
+    flatId,
+    userId,
   });
 
   return result;
 };
 
 const getAllBookingRequests = async () => {
-  const result = await prisma.booking.findMany();
-  return result;
-};
-
-const updateBookingRequest = async (bookingId: string, status: string) => {
-  const result = await prisma.booking.update({
-    where: {
-      id: bookingId,
-    },
-    data: {
-      status,
-    },
-  });
+  const result = await BookingModel.find();
   return result;
 };
 
 export const BookingServices = {
   createBookingRequest,
   getAllBookingRequests,
-  updateBookingRequest,
 };

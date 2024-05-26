@@ -16,10 +16,4 @@ router.get(
   bookingControllers.getAllBookingRequests,
 );
 
-router.put(
-  "/booking-requests/:bookingId",
-  auth(),
-  bookingControllers.updateBookingRequest,
-);
-
 export const bookingRoutes = router;
