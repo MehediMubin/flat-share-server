@@ -6,7 +6,7 @@ import { jwtHelpers } from "../../utils/jwtHelpers";
 import { TLogin, TRegistration } from "./auth.constant";
 
 const register = async (payload: TRegistration) => {
-  const { name, email, password, bio, profession, address } = payload;
+  const { username, email, password } = payload;
 
   const hashedPassword = await bcrypt.hash(
     password,
@@ -14,37 +14,12 @@ const register = async (payload: TRegistration) => {
   );
 
   const userData = {
-    name,
+    username,
     email,
     password: hashedPassword,
   };
-  const userProfileData = {
-    bio,
-    profession,
-    address,
-  };
 
-  const result = await prisma.$transaction(async (transactionClient) => {
-    const userResult = await transactionClient.user.create({
-      data: userData,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
-    await transactionClient.userProfile.create({
-      data: {
-        ...userProfileData,
-        userId: userResult.id,
-      },
-    });
-
-    return userResult;
-  });
+  const result = await 
 
   return result;
 };
