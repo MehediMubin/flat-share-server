@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { jwtHelpers } from "../../utils/jwtHelpers";
-import { TLogin, TRegistration } from "./auth.constant";
+import { TAuth, TLogin } from "./auth.interface";
 import { AuthModel } from "./auth.model";
 
-const register = async (payload: TRegistration) => {
+const register = async (payload: TAuth) => {
   const { username, email, password } = payload;
 
   const hashedPassword = await bcrypt.hash(
@@ -19,9 +20,21 @@ const register = async (payload: TRegistration) => {
     password: hashedPassword,
   };
 
-  const result = await AuthModel.create(userData);
+  let user;
+  try {
+    user = await AuthModel.create(userData);
+  } catch (error: any) {
+    if (error.code === 11000) {
+      const key = Object.keys(error.keyValue)[0];
+      const value = error.keyValue[key];
+      throw new Error(`The ${key} "${value}" already exists.`);
+    }
+    throw new Error(error.message);
+  }
 
-  return result;
+  const userObject = await AuthModel.findById(user._id).select("-password");
+
+  return userObject;
 };
 
 const login = async (payload: TLogin) => {

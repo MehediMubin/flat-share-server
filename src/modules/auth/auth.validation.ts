@@ -3,7 +3,7 @@ import { z } from "zod";
 const register = z.object({
   body: z.object({
     username: z.string({
-      required_error: "Name field is required.",
+      required_error: "Username field is required.",
     }),
     email: z.string({
       required_error: "Email field is required",
