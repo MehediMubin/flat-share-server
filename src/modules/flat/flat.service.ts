@@ -1,74 +1,42 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../db/prisma";
-import { TFlat, TFlatUpdate, TGetAllFlatsOptions } from "./flat.constant";
-
-type FlatOrderByInput = {
-  id?: Prisma.SortOrder;
-  squareFeet?: Prisma.SortOrder;
-  totalBedrooms?: Prisma.SortOrder;
-  totalRooms?: Prisma.SortOrder;
-  utilitiesDescription?: Prisma.SortOrder;
-  location?: Prisma.SortOrder;
-  description?: Prisma.SortOrder;
-  rent?: Prisma.SortOrder;
-  availability?: Prisma.SortOrder;
-  advanceAmount?: Prisma.SortOrder;
-  createdAt?: Prisma.SortOrder;
-  updatedAt?: Prisma.SortOrder;
-};
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TFlat, TFlatUpdate, TGetAllFlatsOptions } from "./flat.interface";
+import { FlatModel } from "./flat.model";
 
 const addFlat = async (payload: TFlat) => {
-  const result = await prisma.flat.create({
-    data: payload,
-  });
+  const result = await FlatModel.create(payload);
   return result;
 };
 
 const getAllFlats = async (options: TGetAllFlatsOptions = {}) => {
   const {
     location,
-    description,
-    utilitiesDescription,
+    minPrice,
+    maxPrice,
+    numberOfBedrooms,
     page = 1,
     limit = 10,
-    sortBy,
-    sortOrder = "asc",
-    availability,
   } = options;
 
-  const where: Prisma.FlatWhereInput = {};
+  const where: any = {};
   if (location) {
-    where.location = { contains: location, mode: "insensitive" };
+    where.location = new RegExp(location, "i");
   }
-  if (description) {
-    where.description = { contains: description, mode: "insensitive" };
+  if (minPrice) {
+    where.rent = { $gte: minPrice };
   }
-  if (utilitiesDescription) {
-    where.utilitiesDescription = {
-      contains: utilitiesDescription,
-      mode: "insensitive",
-    };
+  if (maxPrice) {
+    where.rent = { ...where.rent, $lte: maxPrice };
   }
-  if (availability !== undefined) {
-    where.availability = availability;
+  if (numberOfBedrooms) {
+    where.numberOfBedrooms = numberOfBedrooms;
   }
 
-  const orderBy: FlatOrderByInput = {};
-  if (sortBy) {
-    orderBy[sortBy as keyof FlatOrderByInput] = sortOrder as Prisma.SortOrder;
-  }
+  const result = await FlatModel.find(where)
+    .skip((page - 1) * limit)
+    .limit(limit);
 
-  const queryOptions: Prisma.FlatFindManyArgs = {
-    where,
-    orderBy,
-    skip: (page - 1) * limit,
-    take: limit,
-  };
+  const total = await FlatModel.countDocuments(where);
 
-  const [result, total] = await Promise.all([
-    prisma.flat.findMany(queryOptions),
-    prisma.flat.count({ where }),
-  ]);
   const meta = {
     total,
     page,
@@ -79,12 +47,7 @@ const getAllFlats = async (options: TGetAllFlatsOptions = {}) => {
 };
 
 const updateSingleFlat = async (id: string, payload: TFlatUpdate) => {
-  const result = await prisma.flat.update({
-    where: {
-      id,
-    },
-    data: payload,
-  });
+  const result = await FlatModel.findByIdAndUpdate(id, payload, { new: true });
   return result;
 };
 
