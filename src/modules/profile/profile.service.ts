@@ -9,7 +9,7 @@ const getProfile = async (userId: string) => {
 
 const updateProfile = async (userId: string, data: any) => {
   try {
-    const { username, email, oldPassword, newPassword } = data;
+    const { username, email, currentPassword, newPassword } = data;
 
     const user = await AuthModel.findById(userId);
 
@@ -17,14 +17,14 @@ const updateProfile = async (userId: string, data: any) => {
       throw new Error("User not found");
     }
 
-    if (oldPassword) {
-      const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (currentPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
       if (!isMatch) {
-        throw new Error("Old password is incorrect");
+        throw new Error("Current password is incorrect");
       }
       data.password = await bcrypt.hash(
         newPassword,
-        config.salt_rounds as string,
+        Number(config.salt_rounds),
       );
     }
 
