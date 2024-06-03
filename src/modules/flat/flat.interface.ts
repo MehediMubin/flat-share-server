@@ -4,7 +4,7 @@ export type TFlat = {
   rent: number;
   numberOfBedrooms: number;
   amenities: string;
-  photoUrl: string[];
+  photoUrl: string;
 };
 
 export type TFlatUpdate = {

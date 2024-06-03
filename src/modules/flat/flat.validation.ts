@@ -20,11 +20,9 @@ const addFlat = z.object({
     amenities: z.string({
       invalid_type_error: "Amenities must be a string.",
     }),
-    photoUrl: z.array(
-      z.string({
-        invalid_type_error: "Photo URL must be an array of strings.",
-      }),
-    ),
+    photoUrl: z.string({
+      invalid_type_error: "Photo URL must be a string.",
+    }),
   }),
 });
 
@@ -35,7 +33,7 @@ const updateFlat = z.object({
     rent: z.number().optional(),
     numberOfBedrooms: z.number().optional(),
     amenities: z.string().optional(),
-    photoUrl: z.array(z.string()).optional(),
+    photoUrl: z.string().optional(),
   }),
 });
 

@@ -21,7 +21,7 @@ const flatSchema = new Schema<TFlat>({
     type: String,
   },
   photoUrl: {
-    type: [String],
+    type: String,
   },
 });
 
