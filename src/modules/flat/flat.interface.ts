@@ -20,6 +20,4 @@ export type TGetAllFlatsOptions = {
   minPrice?: number;
   maxPrice?: number;
   numberOfBedrooms?: number;
-  page?: number;
-  limit?: number;
 };

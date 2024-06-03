@@ -25,12 +25,11 @@ const getAllFlats = catchAsync(async (req, res) => {
       ? parseInt(req.query.maxPrice as string)
       : undefined,
   };
-  const { meta, result } = await flatServices.getAllFlats(options);
+  const result = await flatServices.getAllFlats(options);
   res.status(200).json({
     success: true,
     statusCode: 200,
     message: "Flats retrieved successfully",
-    meta,
     data: result,
   });
 });

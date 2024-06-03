@@ -8,14 +8,7 @@ const addFlat = async (payload: TFlat) => {
 };
 
 const getAllFlats = async (options: TGetAllFlatsOptions = {}) => {
-  const {
-    location,
-    minPrice,
-    maxPrice,
-    numberOfBedrooms,
-    page = 1,
-    limit = 10,
-  } = options;
+  const { location, minPrice, maxPrice, numberOfBedrooms } = options;
 
   const where: any = {};
   if (location) {
@@ -31,19 +24,8 @@ const getAllFlats = async (options: TGetAllFlatsOptions = {}) => {
     where.numberOfBedrooms = numberOfBedrooms;
   }
 
-  const result = await FlatModel.find(where)
-    .skip((page - 1) * limit)
-    .limit(limit);
-
-  const total = await FlatModel.countDocuments(where);
-
-  const meta = {
-    total,
-    page,
-    limit,
-  };
-
-  return { meta, result };
+  const result = await FlatModel.find(where);
+  return result;
 };
 
 const updateSingleFlat = async (id: string, payload: TFlatUpdate) => {
