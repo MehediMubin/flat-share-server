@@ -1,5 +1,5 @@
 import catchAsync from "../../utils/catchAsync";
-import { TGetAllFlatsOptions } from "./flat.constant";
+import { TGetAllFlatsOptions } from "./flat.interface";
 import { flatServices } from "./flat.service";
 
 const addFlat = catchAsync(async (req, res) => {
@@ -14,12 +14,16 @@ const addFlat = catchAsync(async (req, res) => {
 
 const getAllFlats = catchAsync(async (req, res) => {
   const options: TGetAllFlatsOptions = {
-    sortBy: req.query.sortBy as "squareFeet" | "totalBedrooms" | "totalRooms" | "rent" | "advanceAmount" | undefined,
-    sortOrder: req.query.sortOrder as "asc" | "desc",
-    location: req.query.location as string,
-    description: req.query.description as string,
-    utilitiesDescription: req.query.utilitiesDescription as string,
-    availability: req.query.availability === 'true' ? true : req.query.availability === 'false' ? false : undefined,
+    location: req.query.location ? (req.query.location as string) : undefined,
+    numberOfBedrooms: req.query.numberOfBedrooms
+      ? parseInt(req.query.numberOfBedrooms as string)
+      : undefined,
+    minPrice: req.query.minPrice
+      ? parseInt(req.query.minPrice as string)
+      : undefined,
+    maxPrice: req.query.maxPrice
+      ? parseInt(req.query.maxPrice as string)
+      : undefined,
   };
   const { meta, result } = await flatServices.getAllFlats(options);
   res.status(200).json({
