@@ -26,4 +26,6 @@ router.put(
   flatControllers.updateFlat,
 );
 
+router.delete("/:flatId", auth(), flatControllers.deleteSingleFlat);
+
 export const flatRoutes = router;

@@ -43,10 +43,16 @@ const updateSingleFlat = async (id: string, payload: TFlatUpdate) => {
   return result;
 };
 
+const deleteSingleFlat = async (id: string) => {
+  const result = await FlatModel.findByIdAndDelete(id);
+  return result;
+};
+
 export const flatServices = {
   addFlat,
   getAllFlats,
   getSingleUserFlats,
   getSingleFlat,
   updateSingleFlat,
+  deleteSingleFlat,
 };

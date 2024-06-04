@@ -70,10 +70,22 @@ const updateFlat = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSingleFlat = catchAsync(async (req, res) => {
+  const { flatId } = req.params;
+  const result = await flatServices.deleteSingleFlat(flatId);
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "Flat deleted successfully",
+    data: result,
+  });
+});
+
 export const flatControllers = {
   addFlat,
   getAllFlats,
   getSingleUserFlats,
   getSingleFlat,
   updateFlat,
+  deleteSingleFlat,
 };
