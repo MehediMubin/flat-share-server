@@ -28,6 +28,11 @@ const getAllFlats = async (options: TGetAllFlatsOptions = {}) => {
   return result;
 };
 
+const getSingleUserFlats = async (userId: string) => {
+  const result = await FlatModel.find({ userId });
+  return result;
+};
+
 const getSingleFlat = async (id: string) => {
   const result = await FlatModel.findById(id);
   return result;
@@ -41,6 +46,7 @@ const updateSingleFlat = async (id: string, payload: TFlatUpdate) => {
 export const flatServices = {
   addFlat,
   getAllFlats,
+  getSingleUserFlats,
   getSingleFlat,
   updateSingleFlat,
 };

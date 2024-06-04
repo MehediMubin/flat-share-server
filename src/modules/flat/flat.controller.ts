@@ -3,7 +3,7 @@ import { TGetAllFlatsOptions } from "./flat.interface";
 import { flatServices } from "./flat.service";
 
 const addFlat = catchAsync(async (req, res) => {
-  const {id} = req.user;
+  const { id } = req.user;
   // eslint-disable-next-line no-console
   console.log(id);
   const result = await flatServices.addFlat(req.body, id);
@@ -37,6 +37,17 @@ const getAllFlats = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleUserFlats = catchAsync(async (req, res) => {
+  const { id } = req.user;
+  const result = await flatServices.getSingleUserFlats(id);
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "User flats retrieved successfully",
+    data: result,
+  });
+});
+
 const getSingleFlat = catchAsync(async (req, res) => {
   const { flatId } = req.params;
   const result = await flatServices.getSingleFlat(flatId);
@@ -62,6 +73,7 @@ const updateFlat = catchAsync(async (req, res) => {
 export const flatControllers = {
   addFlat,
   getAllFlats,
+  getSingleUserFlats,
   getSingleFlat,
   updateFlat,
 };
