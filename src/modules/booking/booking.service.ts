@@ -1,3 +1,4 @@
+import { FlatModel } from "../flat/flat.model";
 import { BookingModel } from "./booking.model";
 
 interface BookingRequestPayload {
@@ -34,11 +35,18 @@ const getAllBookingRequests = async () => {
 };
 
 const getSingleUserBookingRequest = async (userId: string) => {
-  const result = await BookingModel.findOne({
+  const bookingInfo = await BookingModel.findOne({
     userId,
   });
+  if (!bookingInfo) {
+    throw new Error("No booking request found for this user.");
+  }
 
-  return result;
+  const result = await FlatModel.findById(bookingInfo.flatId);
+  return {
+    location: result?.location,
+    requestStatus: bookingInfo.requestStatus,
+  };
 };
 
 export const BookingServices = {
