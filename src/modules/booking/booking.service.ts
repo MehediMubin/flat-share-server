@@ -1,6 +1,15 @@
 import { BookingModel } from "./booking.model";
 
-const createBookingRequest = async (flatId: string, userId: string) => {
+interface BookingRequestPayload {
+  username: string;
+  email: string;
+}
+
+const createBookingRequest = async (
+  flatId: string,
+  userId: string,
+  payload: BookingRequestPayload,
+) => {
   const existingBooking = await BookingModel.findOne({
     flatId,
     userId,
@@ -13,6 +22,7 @@ const createBookingRequest = async (flatId: string, userId: string) => {
   const result = await BookingModel.create({
     flatId,
     userId,
+    ...payload,
   });
 
   return result;

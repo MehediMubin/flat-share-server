@@ -2,10 +2,12 @@ import catchAsync from "../../utils/catchAsync";
 import { BookingServices } from "./booking.service";
 
 const createBookingRequest = catchAsync(async (req, res) => {
-  const { flatId } = req.body;
+  const flatId = String(req.query.flatId) ?? "";
+  const userInfo = req.body;
   const result = await BookingServices.createBookingRequest(
     flatId,
     req.user.id,
+    userInfo,
   );
   res.status(201).json({
     success: true,
@@ -24,7 +26,6 @@ const getAllBookingRequests = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 export const bookingControllers = {
   createBookingRequest,

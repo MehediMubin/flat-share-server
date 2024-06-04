@@ -2,9 +2,8 @@ import { z } from "zod";
 
 const booking = z.object({
   body: z.object({
-    flatId: z.string({
-      required_error: "Flat ID field is required.",
-    }),
+    username: z.string().min(3).max(255),
+    email: z.string().email(),
   }),
 });
 

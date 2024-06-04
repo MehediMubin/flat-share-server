@@ -6,6 +6,18 @@ const bookingSchema = new Schema<TBooking>({
     type: String,
     required: true,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
 });
 
 export const BookingModel = model<TBooking>("Booking", bookingSchema);
