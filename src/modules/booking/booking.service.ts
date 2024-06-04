@@ -35,18 +35,22 @@ const getAllBookingRequests = async () => {
 };
 
 const getSingleUserBookingRequest = async (userId: string) => {
-  const bookingInfo = await BookingModel.findOne({
+  const bookingInfo = await BookingModel.find({
     userId,
   });
   if (!bookingInfo) {
     throw new Error("No booking request found for this user.");
   }
 
-  const result = await FlatModel.findById(bookingInfo.flatId);
-  return {
-    location: result?.location,
-    requestStatus: bookingInfo.requestStatus,
-  };
+  const result = [];
+  for (const booking of bookingInfo) {
+    const flatInfo = await FlatModel.findById(booking.flatId);
+    result.push({
+      location: flatInfo?.location,
+      requestStatus: booking.requestStatus,
+    });
+  }
+  return result;
 };
 
 export const BookingServices = {
