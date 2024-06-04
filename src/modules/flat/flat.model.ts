@@ -2,6 +2,11 @@ import { Schema, model } from "mongoose";
 import { TFlat } from "./flat.interface";
 
 const flatSchema = new Schema<TFlat>({
+  userId: {
+    type: String,
+    ref: "User",
+    required: true,
+  },
   location: {
     type: String,
     required: true,

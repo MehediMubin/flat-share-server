@@ -2,8 +2,8 @@
 import { TFlat, TFlatUpdate, TGetAllFlatsOptions } from "./flat.interface";
 import { FlatModel } from "./flat.model";
 
-const addFlat = async (payload: TFlat) => {
-  const result = await FlatModel.create(payload);
+const addFlat = async (payload: TFlat, userId: string) => {
+  const result = await FlatModel.create({ ...payload, userId });
   return result;
 };
 

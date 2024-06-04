@@ -1,4 +1,5 @@
 export type TFlat = {
+  userId: string;
   location: string;
   description: string;
   rent: number;

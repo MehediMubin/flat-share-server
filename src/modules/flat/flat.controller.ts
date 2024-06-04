@@ -3,7 +3,10 @@ import { TGetAllFlatsOptions } from "./flat.interface";
 import { flatServices } from "./flat.service";
 
 const addFlat = catchAsync(async (req, res) => {
-  const result = await flatServices.addFlat(req.body);
+  const {id} = req.user;
+  // eslint-disable-next-line no-console
+  console.log(id);
+  const result = await flatServices.addFlat(req.body, id);
   res.status(201).json({
     success: true,
     statusCode: 201,
