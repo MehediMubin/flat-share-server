@@ -3,4 +3,5 @@ export type TBooking = {
   userId: string;
   username: string;
   email: string;
+  requestStatus: "pending" | "approved" | "rejected";
 };

@@ -18,6 +18,11 @@ const bookingSchema = new Schema<TBooking>({
     type: String,
     required: true,
   },
+  requestStatus: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
+  },
 });
 
 export const BookingModel = model<TBooking>("Booking", bookingSchema);
