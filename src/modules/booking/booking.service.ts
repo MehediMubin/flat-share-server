@@ -33,7 +33,16 @@ const getAllBookingRequests = async () => {
   return result;
 };
 
+const getSingleUserBookingRequest = async (userId: string) => {
+  const result = await BookingModel.findOne({
+    userId,
+  });
+
+  return result;
+};
+
 export const BookingServices = {
   createBookingRequest,
   getAllBookingRequests,
+  getSingleUserBookingRequest,
 };

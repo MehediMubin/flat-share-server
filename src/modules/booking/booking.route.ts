@@ -16,4 +16,10 @@ router.get(
   bookingControllers.getAllBookingRequests,
 );
 
+router.get(
+  "/booking-requests/user",
+  auth(),
+  bookingControllers.getSingleUserBookingRequest,
+);
+
 export const bookingRoutes = router;
