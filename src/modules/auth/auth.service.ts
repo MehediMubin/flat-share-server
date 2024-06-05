@@ -64,6 +64,7 @@ const login = async (payload: TLogin) => {
   const accessToken = jwtHelpers.generateToken(
     {
       id: userData.id,
+      role: userData.role,
     },
     config.jwt.access_token_secret as string,
     config.jwt.access_token_expires_in as string,
