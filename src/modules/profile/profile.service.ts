@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { AuthModel } from "../auth/auth.model";
@@ -10,6 +11,32 @@ const getProfile = async (userId: string) => {
 const getAllProfiles = async () => {
   const users = await AuthModel.find().select("-password");
   return users;
+};
+
+const updateUserStatusAndRole = async (userId: string, data: any) => {
+  try {
+    const { role, status } = data;
+    const user = AuthModel.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const updateData: any = {};
+    if (role) updateData.role = role;
+    if (status) updateData.status = status;
+
+    const updatedUser = await AuthModel.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      updateData,
+      { new: true, runValidators: true, context: "query" },
+    ).select("-password");
+    return updatedUser;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
 
 const updateProfile = async (userId: string, data: any) => {
@@ -65,5 +92,6 @@ const updateProfile = async (userId: string, data: any) => {
 export const ProfileServices = {
   getProfile,
   getAllProfiles,
+  updateUserStatusAndRole,
   updateProfile,
 };

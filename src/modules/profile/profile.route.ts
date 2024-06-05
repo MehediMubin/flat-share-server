@@ -10,4 +10,6 @@ router.get("/all", auth(), ProfileController.getAllProfiles);
 
 router.put("/", auth(), ProfileController.updateProfile);
 
+router.put("/:id", auth(), ProfileController.updateUserStatusAndRole);
+
 export const profileRoutes = router;

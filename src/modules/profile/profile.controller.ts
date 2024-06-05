@@ -33,8 +33,20 @@ const updateProfile = catchAsync(async (req, res) => {
   });
 });
 
+const updateUserStatusAndRole = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ProfileServices.updateUserStatusAndRole(id, req.body);
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "User status and role updated successfully",
+    data: result,
+  });
+});
+
 export const ProfileController = {
   getProfile,
   getAllProfiles,
   updateProfile,
+  updateUserStatusAndRole,
 };
