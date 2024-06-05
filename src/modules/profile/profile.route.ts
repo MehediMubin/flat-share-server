@@ -6,6 +6,8 @@ const router = Router();
 
 router.get("/", auth(), ProfileController.getProfile);
 
+router.get("/all", auth(), ProfileController.getAllProfiles);
+
 router.put("/", auth(), ProfileController.updateProfile);
 
 export const profileRoutes = router;

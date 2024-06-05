@@ -7,6 +7,11 @@ const getProfile = async (userId: string) => {
   return user;
 };
 
+const getAllProfiles = async () => {
+  const users = await AuthModel.find().select("-password");
+  return users;
+};
+
 const updateProfile = async (userId: string, data: any) => {
   try {
     const { username, email, currentPassword, newPassword } = data;
@@ -59,5 +64,6 @@ const updateProfile = async (userId: string, data: any) => {
 
 export const ProfileServices = {
   getProfile,
+  getAllProfiles,
   updateProfile,
 };

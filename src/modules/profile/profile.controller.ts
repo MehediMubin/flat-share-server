@@ -12,6 +12,16 @@ const getProfile = catchAsync(async (req, res) => {
   });
 });
 
+const getAllProfiles = catchAsync(async (req, res) => {
+  const result = await ProfileServices.getAllProfiles();
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "All user profiles retrieved successfully",
+    data: result,
+  });
+});
+
 const updateProfile = catchAsync(async (req, res) => {
   const { id } = req.user;
   const result = await ProfileServices.updateProfile(id, req.body);
@@ -25,5 +35,6 @@ const updateProfile = catchAsync(async (req, res) => {
 
 export const ProfileController = {
   getProfile,
+  getAllProfiles,
   updateProfile,
 };
