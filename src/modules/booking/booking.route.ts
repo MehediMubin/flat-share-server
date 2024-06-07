@@ -6,19 +6,19 @@ const router = Router();
 
 router.post(
   "/booking-applications",
-  auth(),
+  auth(["user"]),
   bookingControllers.createBookingRequest,
 );
 
 router.get(
   "/booking-requests",
-  auth(),
+  auth(["user", "admin", "superAdmin"]),
   bookingControllers.getAllBookingRequests,
 );
 
 router.get(
   "/booking-requests/user",
-  auth(),
+  auth(["user", "admin", "superAdmin"]),
   bookingControllers.getSingleUserBookingRequest,
 );
 

@@ -4,7 +4,7 @@ import config from "../config";
 import { jwtHelpers } from "../utils/jwtHelpers";
 import UnauthorizedError, { UnauthorizedReason } from "./unauthorizedError";
 
-const auth = (role: "superAdmin" | "admin" | "user") => {
+const auth = (roles: ("superAdmin" | "admin" | "user")[]) => {
   return async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     req: Request & { user?: any },
@@ -23,8 +23,8 @@ const auth = (role: "superAdmin" | "admin" | "user") => {
         config.jwt.access_token_secret as Secret,
       );
 
-      // Check if the verified user has the required role
-      if (verifiedUser.role !== role) {
+      // Check if the verified user's role is included in the array of allowed roles
+      if (!roles.includes(verifiedUser.role)) {
         throw new Error("Unauthorized access!");
       }
 
