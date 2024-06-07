@@ -4,12 +4,28 @@ import { ProfileController } from "./profile.controller";
 
 const router = Router();
 
-router.get("/", auth(), ProfileController.getProfile);
+router.get(
+  "/",
+  auth(["admin", "superAdmin", "user"]),
+  ProfileController.getProfile,
+);
 
-router.get("/all", auth(), ProfileController.getAllProfiles);
+router.get(
+  "/all",
+  auth(["superAdmin", "admin"]),
+  ProfileController.getAllProfiles,
+);
 
-router.put("/", auth(), ProfileController.updateProfile);
+router.put(
+  "/",
+  auth(["admin", "superAdmin", "user"]),
+  ProfileController.updateProfile,
+);
 
-router.put("/:id", auth(), ProfileController.updateUserStatusAndRole);
+router.put(
+  "/:id",
+  auth(["superAdmin", "admin"]),
+  ProfileController.updateUserStatusAndRole,
+);
 
 export const profileRoutes = router;
