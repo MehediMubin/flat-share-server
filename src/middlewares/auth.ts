@@ -23,7 +23,6 @@ const auth = (roles: ("superAdmin" | "admin" | "user")[]) => {
         config.jwt.access_token_secret as Secret,
       );
 
-      // Check if the verified user's role is included in the array of allowed roles
       if (!roles.includes(verifiedUser.role)) {
         throw new Error("Unauthorized access!");
       }
