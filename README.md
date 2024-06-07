@@ -1,6 +1,6 @@
 # Flat Sharing Application
 
-[Live URL](https://flat-share-server-delta.vercel.app/)
+[Live URL](https://flat-share-server-bice.vercel.app/)
 
 ## Features
 
@@ -18,12 +18,12 @@
 
 - Programming Language: TypeScript
 - Web Framework: Express.js
-- Object Relational Mapping (ORM): Prisma for PostgreSQL
+- Database: MongoDB
 - Authentication: JWT (JSON Web Tokens)
 
 ## Setup
 
-1. Clone the repository: git clone https://github.com/Porgramming-Hero-web-course/l2-b2-fullstack-track-assignment-8-MehediMubin.git
+1. Clone the repository: git clone https://github.com/MehediMubin/flat-share-server.git
 2. Install the dependencies: npm install
 3. Copy the .env.example file to a new file named .env and fill in your environment variables
 4. Start the server: npm run start:dev
