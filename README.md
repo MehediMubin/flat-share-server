@@ -23,7 +23,8 @@
 
 ## Setup
 
-1. Clone the repository: git clone https://github.com/MehediMubin/flat-share-server.git
-2. Install the dependencies: npm install
+1. Clone the repository: `git clone https://github.com/MehediMubin/flat-share-server.git`
+2. Install the dependencies: `npm install`
 3. Copy the .env.example file to a new file named .env and fill in your environment variables
-4. Start the server: npm run start:dev
+4. Start the server: `npm run start:dev`
+5. Open your browser and navigate to `http://localhost:5000`
